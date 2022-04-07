@@ -23,7 +23,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.AUTH,
-      page: () => AuthView(),
+      page: () => const AuthView(),
       binding: AuthBinding(),
       transition: Transition.noTransition,
     ),

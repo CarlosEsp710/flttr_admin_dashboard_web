@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class WebTextTheme {
   TextTheme textTheme(BuildContext context) {
-    return GoogleFonts.montserratTextTheme(
+    return GoogleFonts.montserratAlternatesTextTheme(
       Theme.of(context).textTheme,
     );
   }

@@ -6,6 +6,7 @@ import 'app/core/constants/app_constants.dart';
 import 'app/core/constants/firebase.dart';
 import 'app/core/theme/text_theme.dart';
 import 'app/routes/app_pages.dart';
+import 'app/core/utils/helpers/no_page_found.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,8 +27,13 @@ class MyWebApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Flutter Web Dashboard",
-      initialRoute: AppPages.INITIAL,
+      initialRoute: Routes.AUTH,
       getPages: AppPages.routes,
+      unknownRoute: GetPage(
+        name: '/404',
+        page: () => const NoPageFound(),
+        transition: Transition.noTransition,
+      ),
       theme: ThemeData(
         textTheme: WebTextTheme().textTheme(context),
       ),
