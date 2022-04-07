@@ -41,7 +41,7 @@ class _DesktopBody extends StatelessWidget {
       height: size.height * 0.95,
       child: Row(
         children: <Widget>[
-          const BackgroundTwitter(),
+          const Expanded(child: BackgroundTwitter()),
           Container(
             width: 600,
             height: double.infinity,
@@ -51,9 +51,11 @@ class _DesktopBody extends StatelessWidget {
                 const CustomTitleWidget(),
                 const SizedBox(height: 50),
                 Obx(
-                  () => _controller.isLoginWidgetDisplayed.value
-                      ? const LoginWidget()
-                      : const RegisterWidget(),
+                  () => Expanded(
+                    child: _controller.isLoginWidgetDisplayed.value
+                        ? const LoginWidget()
+                        : const RegisterWidget(),
+                  ),
                 ),
               ],
             ),
@@ -72,8 +74,10 @@ class _MobileBody extends StatelessWidget {
     final AuthController _controller = Get.find();
 
     return Container(
+      //height: 1000,
       color: Colors.black,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           const CustomTitleWidget(),
           const SizedBox(height: 50),

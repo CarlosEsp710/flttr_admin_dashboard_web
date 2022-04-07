@@ -1,19 +1,18 @@
-import 'package:admin_dashboard/app/modules/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import 'app/core/constants/app_constants.dart';
 import 'app/core/constants/firebase.dart';
+import 'app/modules/splash/controllers/splash_controller.dart';
 import 'app/core/theme/text_theme.dart';
 import 'app/routes/app_pages.dart';
-import 'app/core/utils/helpers/no_page_found.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initialization.then((_) {
-    Get.put<AuthController>(AuthController());
+    Get.put<SplashController>(SplashController());
     logger.i('Firebase initialized successfully');
   });
 
@@ -31,11 +30,7 @@ class MyWebApp extends StatelessWidget {
       title: "Flutter Web Dashboard",
       initialRoute: Routes.AUTH,
       getPages: AppPages.routes,
-      unknownRoute: GetPage(
-        name: '/404',
-        page: () => const NoPageFound(),
-        transition: Transition.noTransition,
-      ),
+      unknownRoute: AppPages.routes.last,
       theme: ThemeData(
         textTheme: WebTextTheme().textTheme(context),
       ),

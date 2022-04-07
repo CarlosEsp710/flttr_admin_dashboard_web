@@ -21,9 +21,11 @@ class LoginWidget extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: Form(
+            key: _controller.formKey,
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  controller: _controller.email,
                   decoration: WebTextFormField().inputDecoration(
                     label: 'Email',
                     hint: 'Ingrese su correo',
@@ -40,6 +42,7 @@ class LoginWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  controller: _controller.password,
                   decoration: WebTextFormField().inputDecoration(
                     label: 'Password',
                     hint: 'Ingrese su contraseña',
@@ -58,7 +61,7 @@ class LoginWidget extends StatelessWidget {
                 const SizedBox(height: 20),
                 ButtonWidget(
                   text: 'Ingresar',
-                  onPressed: () {},
+                  onPressed: () => _controller.signIn(),
                 ),
                 const SizedBox(height: 20),
                 LinkTextWidget(

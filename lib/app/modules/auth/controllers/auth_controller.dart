@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/firebase.dart';
-import '../../../routes/app_pages.dart';
 
 class AuthController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -13,33 +11,27 @@ class AuthController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  late Rx<User?> firebaseUser;
-  RxBool isLoggedIn = false.obs;
   RxBool isLoginWidgetDisplayed = true.obs;
 
   String usersCollection = "users";
 
-  @override
-  void onReady() {
-    super.onReady();
-    firebaseUser = Rx<User?>(firebaseAuth.currentUser);
-    firebaseUser.bindStream(firebaseAuth.userChanges());
-    ever(firebaseUser, _setInitialScreen);
-  }
-
-  _setInitialScreen(User? user) {
-    if (user == null) {
-      Get.offAllNamed(Routes.AUTH);
-    } else {
-      Get.offAllNamed(Routes.HOME);
-    }
-  }
-
-  @override
-  void onClose() {}
-
   changeDIsplayedAuthWidget() =>
       isLoginWidgetDisplayed.value = !isLoginWidgetDisplayed.value;
+
+  void signIn() async {
+    try {
+      await firebaseAuth
+          .signInWithEmailAndPassword(
+        email: email.text.trim(),
+        password: password.text.trim(),
+      )
+          .then((result) {
+        _clearControllers();
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   void signUp() async {
     try {
@@ -51,12 +43,10 @@ class AuthController extends GetxController {
           .then((result) {
         String _userId = result.user!.uid;
         _addUserToFirestore(_userId);
-        // _initializeUserModel(_userId);
         _clearControllers();
       });
     } catch (e) {
       debugPrint(e.toString());
-      Get.snackbar("Sign In Failed", "Try again");
     }
   }
 
@@ -65,7 +55,6 @@ class AuthController extends GetxController {
       "name": name.text.trim(),
       "id": userId,
       "email": email.text.trim(),
-      "cart": []
     });
   }
 
