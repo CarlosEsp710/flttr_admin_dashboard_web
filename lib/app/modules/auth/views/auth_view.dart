@@ -51,11 +51,9 @@ class _DesktopBody extends StatelessWidget {
                 const CustomTitleWidget(),
                 const SizedBox(height: 50),
                 Obx(
-                  () => Expanded(
-                    child: _controller.isLoginWidgetDisplayed.value
-                        ? const LoginWidget()
-                        : const RegisterWidget(),
-                  ),
+                  () => _controller.isLoginWidgetDisplayed.value
+                      ? const LoginWidget()
+                      : const RegisterWidget(),
                 ),
               ],
             ),

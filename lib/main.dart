@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/app/modules/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initialization.then((_) {
+    Get.put<AuthController>(AuthController());
     logger.i('Firebase initialized successfully');
   });
 
