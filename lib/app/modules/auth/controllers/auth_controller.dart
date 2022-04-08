@@ -1,22 +1,42 @@
+import 'package:admin_dashboard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/firebase.dart';
 
 class AuthController extends GetxController {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static AuthController instance = Get.find();
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   RxBool isLoginWidgetDisplayed = true.obs;
 
+  late Rx<User?> firebaseUser;
+
   String usersCollection = "users";
 
-  changeDIsplayedAuthWidget() =>
-      isLoginWidgetDisplayed.value = !isLoginWidgetDisplayed.value;
+  @override
+  void onReady() {
+    super.onReady();
+    firebaseUser = Rx<User?>(firebaseAuth.currentUser);
+    firebaseUser.bindStream(firebaseAuth.userChanges());
+    ever(firebaseUser, _setInitialScreen);
+  }
+
+  _setInitialScreen(User? user) {
+    if (user == null) {
+      Get.offAllNamed(Routes.AUTH);
+    } else {
+      // userModel.bindStream(listenToUser());
+      Get.offAllNamed(Routes.HOME);
+    }
+  }
 
   void signIn() async {
     try {
@@ -29,7 +49,7 @@ class AuthController extends GetxController {
         _clearControllers();
       });
     } catch (e) {
-      debugPrint(e.toString());
+      logger.e(e.toString());
     }
   }
 
@@ -46,9 +66,11 @@ class AuthController extends GetxController {
         _clearControllers();
       });
     } catch (e) {
-      debugPrint(e.toString());
+      logger.e(e.toString());
     }
   }
+
+  void signOut() async => firebaseAuth.signOut();
 
   _addUserToFirestore(String userId) {
     firebaseFirestore.collection(usersCollection).doc(userId).set({
@@ -63,4 +85,7 @@ class AuthController extends GetxController {
     email.clear();
     password.clear();
   }
+
+  changeDIsplayedAuthWidget() =>
+      isLoginWidgetDisplayed.value = !isLoginWidgetDisplayed.value;
 }
