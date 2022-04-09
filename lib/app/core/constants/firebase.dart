@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'firebase_options.dart';
 
-final Future<FirebaseApp> initialization = Firebase.initializeApp(
+final Future<FirebaseApp> firebaseInit = Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
 );
 

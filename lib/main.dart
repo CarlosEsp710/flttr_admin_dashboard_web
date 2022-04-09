@@ -11,9 +11,11 @@ import 'app/routes/app_pages.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await initialization.then((_) {
+  await firebaseInit.then((_) {
     Get.put<AuthController>(AuthController());
     logger.i('Firebase initialized successfully');
+  }).catchError((e) {
+    logger.e('Firebase initialization failed, $e');
   });
 
   runApp(const MyWebApp());

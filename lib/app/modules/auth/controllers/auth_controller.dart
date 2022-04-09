@@ -58,7 +58,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
+  void signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -70,12 +70,43 @@ class AuthController extends GetxController {
         idToken: googleAuth?.idToken,
       );
 
-      return await firebaseAuth.signInWithCredential(credential);
+      await firebaseAuth.signInWithCredential(credential).then(
+        (result) {
+          String _userId = result.user!.uid;
+          _addUserToFirestore(
+            _userId,
+            displayName: result.user!.displayName,
+            displayEmail: result.user!.email,
+          );
+        },
+      );
     } catch (e) {
       logger.e(e.toString());
     }
+  }
 
-    return null;
+  void signInWithFacebook() async {
+    try {
+      FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+
+      facebookProvider.addScope('email');
+      facebookProvider.setCustomParameters({
+        'display': 'popup',
+      });
+
+      await firebaseAuth.signInWithPopup(facebookProvider).then(
+        (result) {
+          String _userId = result.user!.uid;
+          _addUserToFirestore(
+            _userId,
+            displayName: result.user!.displayName,
+            displayEmail: result.user!.email,
+          );
+        },
+      );
+    } catch (e) {
+      logger.e(e.toString());
+    }
   }
 
   void signUp() async {
@@ -100,11 +131,15 @@ class AuthController extends GetxController {
 
   void signOut() async => await firebaseAuth.signOut();
 
-  _addUserToFirestore(String userId) {
+  _addUserToFirestore(
+    String userId, {
+    String? displayName,
+    String? displayEmail,
+  }) async {
     firebaseFirestore.collection(usersCollection).doc(userId).set({
-      "name": name.text.trim(),
+      "name": displayName ?? name.text.trim(),
       "id": userId,
-      "email": email.text.trim(),
+      "email": displayEmail ?? email.text.trim(),
     });
   }
 

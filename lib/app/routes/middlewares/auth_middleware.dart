@@ -6,8 +6,6 @@ import '../../core/constants/firebase.dart';
 import '../app_pages.dart';
 
 class AuthMiddleware extends GetMiddleware {
-//   The default is 0 but you can update it to any number. Please ensure you match the priority based
-//   on the number of guards you have.
   @override
   int? get priority => 1;
 

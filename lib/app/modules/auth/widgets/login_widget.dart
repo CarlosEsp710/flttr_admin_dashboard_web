@@ -70,6 +70,11 @@ class LoginWidget extends StatelessWidget {
                   Buttons.Google,
                   onPressed: () => authController.signInWithGoogle(),
                 ),
+                const SizedBox(height: 5),
+                SignInButton(
+                  Buttons.Facebook,
+                  onPressed: () => authController.signInWithFacebook(),
+                ),
                 const SizedBox(height: 20),
                 LinkTextWidget(
                   text: 'Nueva cuenta',
