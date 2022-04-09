@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import '../../../core/theme/text_form_theme.dart';
 import '../controllers/auth_controller.dart';
@@ -15,13 +16,13 @@ class LoginWidget extends StatelessWidget {
     final AuthController _controller = Get.find();
 
     return Container(
-      margin: const EdgeInsets.only(top: 100),
+      margin: const EdgeInsets.only(top: 60),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: Form(
-            key: _controller.formKey,
+            key: _controller.loginFormKey,
             child: Column(
               children: <Widget>[
                 TextFormField(
@@ -62,6 +63,14 @@ class LoginWidget extends StatelessWidget {
                 ButtonWidget(
                   text: 'Ingresar',
                   onPressed: () => _controller.signIn(),
+                ),
+                const SizedBox(height: 20),
+                // Or sign up with google
+                const Text('O', style: TextStyle(color: Colors.grey)),
+                const SizedBox(height: 5),
+                SignInButton(
+                  Buttons.Google,
+                  onPressed: () => _controller.signInWithGoogle(),
                 ),
                 const SizedBox(height: 20),
                 LinkTextWidget(

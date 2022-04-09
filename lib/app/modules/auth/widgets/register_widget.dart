@@ -15,13 +15,13 @@ class RegisterWidget extends StatelessWidget {
     final AuthController _controller = Get.find();
 
     return Container(
-      margin: const EdgeInsets.only(top: 70),
+      margin: const EdgeInsets.only(top: 45),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: Form(
-            key: _controller.formKey,
+            key: _controller.registerFormKey,
             child: Column(
               children: <Widget>[
                 TextFormField(

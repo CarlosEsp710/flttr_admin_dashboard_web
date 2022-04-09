@@ -90,6 +90,7 @@ class _MobileBody extends StatelessWidget {
                   : const RegisterWidget(),
             ),
           ),
+          const SizedBox(height: 50),
           const SizedBox(
             width: double.infinity,
             height: 400,

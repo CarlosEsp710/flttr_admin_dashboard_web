@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/firebase.dart';
@@ -10,7 +11,9 @@ import '../../../core/constants/firebase.dart';
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
 
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -39,38 +42,62 @@ class AuthController extends GetxController {
   }
 
   void signIn() async {
+    if (loginFormKey.currentState!.validate()) {
+      try {
+        await firebaseAuth
+            .signInWithEmailAndPassword(
+          email: email.text.trim(),
+          password: password.text.trim(),
+        )
+            .then((result) {
+          _clearControllers();
+        });
+      } catch (e) {
+        logger.e(e.toString());
+      }
+    }
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
     try {
-      await firebaseAuth
-          .signInWithEmailAndPassword(
-        email: email.text.trim(),
-        password: password.text.trim(),
-      )
-          .then((result) {
-        _clearControllers();
-      });
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      return await firebaseAuth.signInWithCredential(credential);
     } catch (e) {
       logger.e(e.toString());
     }
+
+    return null;
   }
 
   void signUp() async {
-    try {
-      await firebaseAuth
-          .createUserWithEmailAndPassword(
-        email: email.text.trim(),
-        password: password.text.trim(),
-      )
-          .then((result) {
-        String _userId = result.user!.uid;
-        _addUserToFirestore(_userId);
-        _clearControllers();
-      });
-    } catch (e) {
-      logger.e(e.toString());
+    if (registerFormKey.currentState!.validate()) {
+      try {
+        await firebaseAuth
+            .createUserWithEmailAndPassword(
+          email: email.text.trim(),
+          password: password.text.trim(),
+        )
+            .then((result) {
+          String _userId = result.user!.uid;
+          _addUserToFirestore(_userId);
+          _clearControllers();
+        });
+      } catch (e) {
+        logger.e(e.toString());
+      }
     }
   }
 
-  void signOut() async => firebaseAuth.signOut();
+  void signOut() async => await firebaseAuth.signOut();
 
   _addUserToFirestore(String userId) {
     firebaseFirestore.collection(usersCollection).doc(userId).set({

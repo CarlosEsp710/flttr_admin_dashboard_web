@@ -24,6 +24,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="admin_dashboard" />
+
+    <!-- START Google Client ID -->
+    <meta
+      name="google-signin-client_id"
+      content="473831153583-urv74ob3dmdkknrgatlcdcf1d1bfj6d5.apps.googleusercontent.com"
+    />
+    <!-- END Google Client ID -->
+
     <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
     <!-- Favicon -->
@@ -34,7 +42,7 @@
   </head>
   <body>
     <!-- Firebase CDN -->
-    <script type="module">
+    <!-- <script type="module">
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 
@@ -56,12 +64,13 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js"></script> -->
 
     <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
 
+    <!-- START Service Worker -->
     <script>
       var serviceWorkerVersion = null;
       var scriptLoaded = false;
@@ -126,5 +135,6 @@
         loadMainDartJs();
       }
     </script>
+    <!-- END Service Worker -->
   </body>
 </html>

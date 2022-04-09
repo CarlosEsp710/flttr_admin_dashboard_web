@@ -12,7 +12,7 @@ abstract class Routes {
 
 abstract class _Paths {
   _Paths._();
-  static const HOME = '/home';
+  static const HOME = '/';
   static const AUTH = '/auth';
   static const NOT_FOUND = '/404';
 }
