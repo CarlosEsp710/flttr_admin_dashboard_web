@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
+import '../../../core/constants/controllers.dart';
 import '../../../core/theme/text_form_theme.dart';
-import '../controllers/auth_controller.dart';
+
 import 'link_text_widget.dart';
 import 'button_widget.dart';
 
@@ -13,8 +13,6 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController _controller = Get.find();
-
     return Container(
       margin: const EdgeInsets.only(top: 60),
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -22,11 +20,11 @@ class LoginWidget extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: Form(
-            key: _controller.loginFormKey,
+            key: authController.loginFormKey,
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  controller: _controller.email,
+                  controller: authController.email,
                   decoration: WebTextFormField().inputDecoration(
                     label: 'Email',
                     hint: 'Ingrese su correo',
@@ -43,7 +41,7 @@ class LoginWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _controller.password,
+                  controller: authController.password,
                   decoration: WebTextFormField().inputDecoration(
                     label: 'Password',
                     hint: 'Ingrese su contraseña',
@@ -62,7 +60,7 @@ class LoginWidget extends StatelessWidget {
                 const SizedBox(height: 20),
                 ButtonWidget(
                   text: 'Ingresar',
-                  onPressed: () => _controller.signIn(),
+                  onPressed: () => authController.signIn(),
                 ),
                 const SizedBox(height: 20),
                 // Or sign up with google
@@ -70,13 +68,13 @@ class LoginWidget extends StatelessWidget {
                 const SizedBox(height: 5),
                 SignInButton(
                   Buttons.Google,
-                  onPressed: () => _controller.signInWithGoogle(),
+                  onPressed: () => authController.signInWithGoogle(),
                 ),
                 const SizedBox(height: 20),
                 LinkTextWidget(
                   text: 'Nueva cuenta',
                   color: Colors.blue,
-                  onTap: () => _controller.changeDIsplayedAuthWidget(),
+                  onTap: () => authController.changeDIsplayedAuthWidget(),
                 ),
               ],
             ),

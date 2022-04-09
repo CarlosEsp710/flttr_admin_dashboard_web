@@ -1,4 +1,3 @@
-import 'package:admin_dashboard/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/firebase.dart';
+import '../../../routes/app_pages.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -88,6 +88,7 @@ class AuthController extends GetxController {
         )
             .then((result) {
           String _userId = result.user!.uid;
+          firebaseAuth.currentUser!.updateDisplayName(name.text.trim());
           _addUserToFirestore(_userId);
           _clearControllers();
         });

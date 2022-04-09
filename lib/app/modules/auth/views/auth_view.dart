@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../core/constants/controllers.dart';
 import '../controllers/auth_controller.dart';
 import '../widgets/background_widget.dart';
 import '../widgets/custom_title_widget.dart';
@@ -34,7 +35,6 @@ class _DesktopBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final AuthController _controller = Get.find();
 
     return SizedBox(
       width: size.width,
@@ -52,7 +52,7 @@ class _DesktopBody extends StatelessWidget {
                 const SizedBox(height: 50),
                 Obx(
                   () => Expanded(
-                    child: _controller.isLoginWidgetDisplayed.value
+                    child: authController.isLoginWidgetDisplayed.value
                         ? const LoginWidget()
                         : const RegisterWidget(),
                   ),
@@ -71,8 +71,6 @@ class _MobileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController _controller = Get.find();
-
     return Container(
       //height: 1000,
       color: Colors.black,
@@ -85,7 +83,7 @@ class _MobileBody extends StatelessWidget {
             width: double.infinity,
             height: 420,
             child: Obx(
-              () => _controller.isLoginWidgetDisplayed.value
+              () => authController.isLoginWidgetDisplayed.value
                   ? const LoginWidget()
                   : const RegisterWidget(),
             ),

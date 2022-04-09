@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
-
+import '../../../core/constants/controllers.dart';
 import '../../../core/theme/text_form_theme.dart';
-import '../controllers/auth_controller.dart';
+
 import 'link_text_widget.dart';
 import 'button_widget.dart';
 
@@ -12,8 +11,6 @@ class RegisterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController _controller = Get.find();
-
     return Container(
       margin: const EdgeInsets.only(top: 45),
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -21,11 +18,11 @@ class RegisterWidget extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: Form(
-            key: _controller.registerFormKey,
+            key: authController.registerFormKey,
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  controller: _controller.name,
+                  controller: authController.name,
                   decoration: WebTextFormField().inputDecoration(
                     label: 'Nombre',
                     hint: 'Ingrese su nombre',
@@ -42,7 +39,7 @@ class RegisterWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _controller.email,
+                  controller: authController.email,
                   decoration: WebTextFormField().inputDecoration(
                     label: 'Email',
                     hint: 'Ingrese su correo',
@@ -59,7 +56,7 @@ class RegisterWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _controller.password,
+                  controller: authController.password,
                   decoration: WebTextFormField().inputDecoration(
                     label: 'Password',
                     hint: 'Ingrese su contraseña',
@@ -78,13 +75,13 @@ class RegisterWidget extends StatelessWidget {
                 const SizedBox(height: 20),
                 ButtonWidget(
                   text: 'Crear cuenta',
-                  onPressed: () => _controller.signUp(),
+                  onPressed: () => authController.signUp(),
                 ),
                 const SizedBox(height: 20),
                 LinkTextWidget(
                   text: 'Ya tengo una cuenta',
                   color: Colors.blue,
-                  onTap: () => _controller.changeDIsplayedAuthWidget(),
+                  onTap: () => authController.changeDIsplayedAuthWidget(),
                 ),
               ],
             ),
