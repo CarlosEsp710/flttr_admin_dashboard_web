@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/firebase.dart';
@@ -60,17 +59,13 @@ class AuthController extends GetxController {
 
   void signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      googleProvider
+          .addScope('https://www.googleapis.com/auth/contacts.readonly');
+      googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      await firebaseAuth.signInWithCredential(credential).then(
+      await firebaseAuth.signInWithPopup(googleProvider).then(
         (result) {
           String _userId = result.user!.uid;
           _addUserToFirestore(
