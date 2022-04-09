@@ -31,7 +31,7 @@ class NoPageFound extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             TextButton(
-              onPressed: () => Get.offAllNamed(Routes.HOME),
+              onPressed: () => Get.offAllNamed(Routes.DASHBOARD),
               child: const Text('Go to home'),
             ),
           ],

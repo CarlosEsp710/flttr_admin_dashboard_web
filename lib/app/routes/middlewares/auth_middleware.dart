@@ -12,10 +12,10 @@ class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     if (route == Routes.AUTH && firebaseAuth.currentUser != null) {
-      return const RouteSettings(name: Routes.HOME);
+      return const RouteSettings(name: Routes.DASHBOARD);
     }
 
-    if (route == Routes.HOME && firebaseAuth.currentUser == null) {
+    if (route == Routes.DASHBOARD && firebaseAuth.currentUser == null) {
       return const RouteSettings(name: Routes.AUTH);
     }
 

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  static HomeController instance = Get.find();
+class DashboardController extends GetxController {
+  static DashboardController instance = Get.find();
   //TODO: Implement HomeController
 
   final count = 0.obs;

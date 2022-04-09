@@ -36,7 +36,7 @@ class AuthController extends GetxController {
       Get.offAllNamed(Routes.AUTH);
     } else {
       // userModel.bindStream(listenToUser());
-      Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(Routes.DASHBOARD);
     }
   }
 
